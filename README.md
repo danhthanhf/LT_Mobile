@@ -19,7 +19,7 @@ Giao diện chi tiết được thiết kế trên Figma: [Distant Class](https:
 
 | 👤 Thành viên             | 🎯 Vai trò                    | 📝 Công việc thực hiện                                             |
 |--------------------------|----------------------------|-----------------------------------------------------------------|
-| **Nguyễn Danh Thành**    | Xây dựng API               | Phát triển và triển khai hệ thống API bằng Spring Boot.         |
+| **Nguyễn Danh Thành**  | Xây dựng API               | Phát triển và triển khai hệ thống API bằng Spring Boot.         |
 | **Huỳnh Trọng Tín**      | Xây dựng giao diện app     | Phát triển và triển khai giao diện người dùng bằng Flutter.     |
 | **Lê Hưng Thiện Trí**    | Thiết kế giao diện         | Thiết kế giao diện ứng dụng trên Figma.                         |
 | **Nguyễn Minh Tân**      | Báo cáo và sơ đồ diagram   | Thực hiện báo cáo dự án và xây dựng sơ đồ diagram chi tiết.     |
