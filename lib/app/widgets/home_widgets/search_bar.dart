@@ -10,7 +10,7 @@ class SearchBarScreen extends StatelessWidget {
     return GestureDetector(
       onTap: onTap, // Kích hoạt callback khi nhấn
       child: Container(
-        margin: const EdgeInsets.only(top: 44),
+        margin: const EdgeInsets.only(top: 30),
         width: double.infinity,
         constraints: const BoxConstraints(maxWidth: 400),
         decoration: BoxDecoration(

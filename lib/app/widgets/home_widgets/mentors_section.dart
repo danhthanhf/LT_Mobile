@@ -22,9 +22,23 @@ class MentorsSection extends StatelessWidget {
               ),
               TextButton(
                 onPressed: () {},
-                child: const Text(
-                  'SEE ALL',
-                  style: TextStyle(color: Colors.blue),
+                child: Row(
+                  children: const [
+                    Text(
+                      'SEE ALL',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                        color: Color(0xFF0961F5),
+                      ),
+                    ),
+                    SizedBox(width: 5),
+                    Icon(
+                      Icons.arrow_forward_ios, // Mũi tên
+                      size: 12,
+                      color: Color(0xFF0961F5),
+                    ),
+                  ],
                 ),
               ),
             ],

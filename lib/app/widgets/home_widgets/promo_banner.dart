@@ -6,7 +6,7 @@ class PromoBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 12.0),
       child: Container(
         height: 160,
         decoration: BoxDecoration(

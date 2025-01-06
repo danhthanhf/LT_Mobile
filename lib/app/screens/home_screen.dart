@@ -3,7 +3,6 @@ import '../widgets/home_widgets/categories_section.dart';
 import '../widgets/home_widgets/mentors_section.dart';
 import '../widgets/home_widgets/promo_banner.dart';
 import '../widgets/home_widgets/search_bar.dart';
-import '../widgets/home_widgets/status_bar.dart';
 import '../widgets/home_widgets/user_header.dart';
 import '../widgets/home_widgets/courses_section.dart';
 import '../widgets/home_widgets/home_page/search_page.dart';
@@ -16,7 +15,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  String selectedCategory = ''; // Danh mục được chọn
+  String selectedCategory = 'All';
 
   final courses = [
     {
@@ -55,14 +54,18 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final filteredCourses = selectedCategory.isEmpty
+    final categories = [
+      'All',
+      ...{...courses.map((course) => course['category'] as String)}
+    ];
+    final filteredCourses = selectedCategory == 'All'
         ? courses
         : courses
         .where((course) => course['category'] == selectedCategory)
         .toList();
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color(0xFFF5F9FF),
       body: SingleChildScrollView(
         child: Container(
           constraints: const BoxConstraints(maxWidth: 480),
@@ -71,7 +74,6 @@ class _HomeScreenState extends State<HomeScreen> {
               const UserHeader(),
               SearchBarScreen(
                 onTap: () {
-                // Điều hướng đến SearchPage
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const SearchPage()),
@@ -79,13 +81,19 @@ class _HomeScreenState extends State<HomeScreen> {
               },),
               const PromoBanner(),
               CategoriesSection(
+                categories: categories,
                 onCategorySelected: (category) {
                   setState(() {
                     selectedCategory = category;
                   });
                 },
               ),
-              CoursesSection(courses: filteredCourses),
+              CoursesSection(
+                  context: context,
+                  courses: filteredCourses,
+                  selectedCategory: selectedCategory,
+                categories: categories,
+              ),
               const MentorsSection(),
               const SizedBox(height: 37),
               const BottomIndicator(),

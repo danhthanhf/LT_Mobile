@@ -6,7 +6,7 @@ class UserHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(33, 40, 33, 0),
+      padding: const EdgeInsets.fromLTRB(20, 50, 33, 0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
