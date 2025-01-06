@@ -2,7 +2,6 @@ import 'package:do_an/controllers/curriculum/curriculum_controller.dart';
 import 'package:do_an/screens/course/curriculum/widget/enroll_button.dart';
 import 'package:do_an/screens/course/curriculum/widget/lesson_item.dart';
 import 'package:do_an/screens/course/curriculum/widget/sction_header.dart';
-import 'package:do_an/screens/course/curriculum/widget/status_bar.dart';
 import 'package:do_an/utils/convert_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -15,6 +14,7 @@ class CurriculumScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final Map<String, dynamic> arg = Get.arguments;
     final String title = arg['title'];
+    final bool isEnrolled = arg['isEnrolled'];
     final CurriculumController controller = Get.put(CurriculumController());
     controller.fetchCourseByTitle(title);
 
@@ -36,7 +36,7 @@ class CurriculumScreen extends StatelessWidget {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(33, 17, 14, 69),
+            padding: const EdgeInsets.fromLTRB(20, 28, 20, 60),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -53,7 +53,9 @@ class CurriculumScreen extends StatelessWidget {
                     ],
                   ),
                   child: Obx(
-                      () => controller.isLoading.value ? const CircularProgressIndicator()
+                      () => controller.isLoading.value ? const Center(
+                          child: CircularProgressIndicator()
+                      )
                           :
                       Padding(
                         padding: const EdgeInsets.only(top: 12, bottom: 12),
@@ -91,9 +93,19 @@ class CurriculumScreen extends StatelessWidget {
                                 );
                               }).toList(),
                             ),
-                            EnrollButton(
-                              price: controller.course.value.price?.toDouble() ?? 0,
-                            )
+                            controller.course.value.sections.isEmpty ? const Center(
+                              
+                              child: Padding(padding: EdgeInsets.symmetric(horizontal: 40), child: Text(
+                                "Course content is empty",
+                                style: TextStyle(
+                                  fontFamily: 'Jost',
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              ),) : !isEnrolled ? const EnrollButton() : Container(),
+
                           ],
                         )
                       )

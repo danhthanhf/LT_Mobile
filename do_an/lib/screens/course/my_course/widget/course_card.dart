@@ -37,7 +37,7 @@ class _CourseCardState extends State<CourseCard> {
       child: GestureDetector(
         onTap: () {
           Get.toNamed(AppRoutes.CURRICULUM, arguments: {
-            'title': widget.title,
+            'title': widget.title, "isEnrolled": true,
           });
         },
         child: AnimatedContainer(

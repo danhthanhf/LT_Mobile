@@ -18,21 +18,19 @@ class LessonItem extends StatelessWidget {
     required this.number,
     required this.title,
     required this.video,
-    required this.duration,
-    this.isCompleted = false,
+    required this.duration, required this.isCompleted,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () {
-          print("Tapped");
           if(video != null) {
-            Get.to(() => VideoPlayerScreen(videoUrl: video!));
+            Get.to(() => VideoPlayerScreen(videoUrl: video!, title: title));
           }
         },
         child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: Column(
               children: [
                 Row(
@@ -44,10 +42,10 @@ class LessonItem extends StatelessWidget {
                           width: 46,
                           height: 46,
                           decoration: BoxDecoration(
-                            color: Color(0xFFF5F9FF),
+                            color: const Color(0xFFF5F9FF),
                             shape: BoxShape.circle,
                             border: Border.all(
-                              color: Color(0xFFE8F1FF),
+                              color: const Color(0xFFE8F1FF),
                               width: 2,
                             ),
                           ),
@@ -67,16 +65,20 @@ class LessonItem extends StatelessWidget {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              title,
-                              style: const TextStyle(
-                                fontFamily: 'Jost',
-                                fontSize: 15,
-                                fontWeight: FontWeight.w600,
-                                color: Color(0xFF202244),
+                            ConstrainedBox(
+                              constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width - 150), // Giới hạn chiều rộng
+                              child: Text(
+                                title,
+                                style: const TextStyle(
+                                  fontFamily: 'Jost',
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(0xFF202244),
+                                ),
+                                softWrap: false,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                               ),
-                              softWrap: true,
-                              maxLines: 2,
                             ),
                             Text(
                               duration,
@@ -91,19 +93,14 @@ class LessonItem extends StatelessWidget {
                         ),
                       ],
                     ),
-                    Icon(
-                      isCompleted ? Icons.check_circle : Icons.lock_outline,
-                      color: Color(0xFF0961F5),
-                      size: 18,
-                    ),
                   ],
                 ),
                 const SizedBox(height: 10,),
                 const Divider(
-                  color: AppConstants.lineColor, // Customize the color
-                  thickness: 1, // Customize the thickness
-                  indent: 0, // Customize the left indent
-                  endIndent: 0, // Customize the right indent
+                  color: AppConstants.lineColor,
+                  thickness: 1,
+                  indent: 0,
+                  endIndent: 0,
                 )
               ],
             )
