@@ -1,4 +1,4 @@
-// import 'package:do_an/entity/User.dart';
+// import 'package:do_an/entity/user.dart';
 //
 // class Post {
 //   String _id, _title, _content, _thumbnail, _description;
