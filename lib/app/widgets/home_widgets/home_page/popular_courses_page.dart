@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_app/app/widgets/home_widgets/home_page/Search_Page.dart';
+import 'package:mobile_app/app/widgets/home_widgets/home_page/CourseDetailPage.dart';
 
 class PopularCoursesPage extends StatefulWidget {
   final List<Map<String, dynamic>> courses;
   final List<String> categories;
 
-  const PopularCoursesPage({Key? key, required this.courses,  required this.categories}) : super(key: key);
+  const PopularCoursesPage({Key? key, required this.courses, required this.categories}) : super(key: key);
 
   @override
   State<PopularCoursesPage> createState() => _PopularCoursesPageState();
@@ -19,15 +19,7 @@ class _PopularCoursesPageState extends State<PopularCoursesPage> {
     // Lọc khóa học theo danh mục
     final filteredCourses = selectedCategory == 'All'
         ? widget.courses
-        : widget.courses
-        .where((course) => course['category'] == selectedCategory)
-        .toList();
-
-    // Danh sách các loại danh mục
-    final categories = [
-      'All',
-      ...{...widget.courses.map((course) => course['category'])}
-    ];
+        : widget.courses.where((course) => course['category'] == selectedCategory).toList();
 
     return Scaffold(
       appBar: AppBar(
@@ -45,19 +37,6 @@ class _PopularCoursesPageState extends State<PopularCoursesPage> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.search, color: Colors.black),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const SearchPage(),
-                ),
-              );
-            },
-          ),
-        ],
       ),
       backgroundColor: const Color(0xFFF5F9FF),
       body: Column(
@@ -69,7 +48,7 @@ class _PopularCoursesPageState extends State<PopularCoursesPage> {
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
-                children: categories.map((category) {
+                children: widget.categories.map((category) {
                   final isSelected = selectedCategory == category;
                   return GestureDetector(
                     onTap: () {
@@ -79,12 +58,9 @@ class _PopularCoursesPageState extends State<PopularCoursesPage> {
                     },
                     child: Container(
                       margin: const EdgeInsets.only(right: 10),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 8),
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                       decoration: BoxDecoration(
-                        color: isSelected
-                            ? Colors.teal[800]
-                            : Colors.grey[200],
+                        color: isSelected ? Colors.teal[800] : Colors.grey[200],
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Text(
@@ -110,107 +86,100 @@ class _PopularCoursesPageState extends State<PopularCoursesPage> {
               itemCount: filteredCourses.length,
               itemBuilder: (context, index) {
                 final course = filteredCourses[index];
-                return Container(
-                  margin: const EdgeInsets.only(bottom: 16),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(15),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
-                        blurRadius: 10,
-                        offset: const Offset(0, 4),
+                return GestureDetector(
+                  onTap: () {
+                    // Điều hướng đến trang chi tiết khóa học
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CourseDetailPage(course: course),
                       ),
-                    ],
-                  ),
-                  child: Row(
-                    children: [
-                      Container(
-                        height: 80,
-                        width: 80,
-                        decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.horizontal(
-                              left: Radius.circular(15)),
-                          color: Colors.grey,
+                    );
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.only(bottom: 16),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(15),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1),
+                          blurRadius: 10,
+                          offset: const Offset(0, 4),
                         ),
-                        child: ClipRRect(
-                          borderRadius: const BorderRadius.horizontal(
-                              left: Radius.circular(15)),
-                          child: Image.network(
-                            course['imageUrl'],
-                            fit: BoxFit.cover,
+                      ],
+                    ),
+                    child: Row(
+                      children: [
+                        Container(
+                          height: 80,
+                          width: 80,
+                          decoration: BoxDecoration(
+                            borderRadius: const BorderRadius.horizontal(left: Radius.circular(15)),
+                            color: Colors.grey,
+                          ),
+                          child: ClipRRect(
+                            borderRadius: const BorderRadius.horizontal(left: Radius.circular(15)),
+                            child: Image.network(
+                              course['imageUrl'],
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.all(12),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                course['category'],
-                                style: const TextStyle(
-                                  color: Color(0xFFFF6B00),
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold,
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.all(12),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  course['category'],
+                                  style: const TextStyle(
+                                    color: Color(0xFFFF6B00),
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                              const SizedBox(height: 5),
-                              Text(
-                                course['title'],
-                                style: const TextStyle(
-                                  color: Color(0xFF202244),
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
+                                const SizedBox(height: 5),
+                                Text(
+                                  course['title'],
+                                  style: const TextStyle(
+                                    color: Color(0xFF202244),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              const SizedBox(height: 5),
-                              Row(
-                                children: [
-                                  Text(
-                                    '${course['price']}/-',
-                                    style: const TextStyle(
-                                      color: Color(0xFF0961F5),
-                                      fontWeight: FontWeight.bold,
+                                const SizedBox(height: 5),
+                                Row(
+                                  children: [
+                                    Text(
+                                      '${course['price']}/-',
+                                      style: const TextStyle(
+                                        color: Color(0xFF0961F5),
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
-                                  ),
-                                  const SizedBox(width: 8),
-                                  const Icon(Icons.star,
-                                      color: Colors.orange, size: 14),
-                                  const SizedBox(width: 4),
-                                  Text(
-                                    course['rating'].toString(),
-                                    style: const TextStyle(
-                                      fontSize: 12,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
+                                    const SizedBox(width: 8),
+                                    const Icon(Icons.star, color: Colors.orange, size: 14),
+                                    const SizedBox(width: 4),
+                                    Text(
+                                      course['rating'].toString(),
+                                      style: const TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
-                                  ),
-                                  const SizedBox(width: 8),
-                                  Text(
-                                    '${course['students']} Std',
-                                    style: const TextStyle(
-                                      fontSize: 12,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          // Xử lý khi nhấn bookmark
-                        },
-                        icon: const Icon(Icons.bookmark_outline,
-                            color: Colors.teal),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 );
               },
@@ -221,3 +190,4 @@ class _PopularCoursesPageState extends State<PopularCoursesPage> {
     );
   }
 }
+
