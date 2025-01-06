@@ -25,6 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
       'rating': 4.2,
       'students': 7830,
       'imageUrl': 'https://vtiacademy.edu.vn/upload/images/hoc-code-1.png',
+      'description': 'Learn the basics of music theory in this beginner-friendly course. Understand the core principles of scales, chords, and music composition.'
     },
     {
       'title': 'Advertisement Designing',
@@ -41,6 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
       'rating': 4.8,
       'students': 1200,
       'imageUrl': 'https://vtiacademy.edu.vn/upload/images/hoc-code-1.png',
+      'description': 'Learn the basics of music theory in this beginner-friendly course. Understand the core principles of scales, chords, and music composition.'
     },
     {
       'title': 'Music Theory Basics',
