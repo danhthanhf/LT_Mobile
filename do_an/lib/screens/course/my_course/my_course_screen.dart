@@ -1,5 +1,4 @@
-import 'package:do_an/controllers/my_course_controller.dart';
-import 'package:do_an/models/user_course_progress.dart';
+import 'package:do_an/controllers/my_course/my_course_controller.dart';
 import 'package:do_an/screens/course/curriculum/widget/status_bar.dart';
 import 'package:do_an/screens/course/my_course/widget/course_card.dart';
 import 'package:do_an/screens/course/my_course/widget/filter_tabs.dart';
@@ -7,6 +6,8 @@ import 'package:do_an/screens/course/my_course/widget/search_bar.dart';
 import 'package:do_an/utils/convert_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../../../constant.dart';
 
 class MyCoursesScreen extends StatelessWidget {
   const MyCoursesScreen({Key? key}) : super(key: key);
@@ -22,13 +23,12 @@ class MyCoursesScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              StatusBar(),
                Padding(
-                padding: EdgeInsets.fromLTRB(33, 40, 14, 0),
+                padding: const EdgeInsets.fromLTRB(33, 40, 14, 0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const CustomSearchBar(),
+                   CustomSearchBar(),
                     const SizedBox(height: 20),
                     const FilterTabs(),
                     const SizedBox(height: 24),
@@ -36,11 +36,11 @@ class MyCoursesScreen extends StatelessWidget {
                       if (controller.isLoading.value) {
                         return const Center(
                             child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                SizedBox(height: 20),
-                                CircularProgressIndicator(backgroundColor: ,),
-                                SizedBox(height: 20),
-                                Text("Loading..."),
+                                SizedBox(height: 40),
+                                CircularProgressIndicator(backgroundColor: AppConstants.bgColor,color: AppConstants.blueColor,),
                               ],
                             )
                         );
@@ -51,9 +51,12 @@ class MyCoursesScreen extends StatelessWidget {
                               children: [
                                 CourseCard(
                                   title: course.getCourse.title ?? '',
-                                  category: "Web Development",
+                                  thumbnail: course.getCourse.thumbnail ?? '',
+                                  category: course.getCourse.categoriesString ?? '',
                                   rating: course.myRating ?? 0.0,
                                   duration: ConvertService.convertDuration(course.course.totalDuration ?? 0),
+                                  totalLessons: course.totalLessons ?? 0,
+                                  totalCompletedLessons: course.totalCompletedLessons,
                                 ),
                                 const SizedBox(height: 28),
                               ],

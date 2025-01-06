@@ -1,8 +1,5 @@
-import 'package:do_an/controllers/bottom_nav_controller.dart';
-import 'package:do_an/screens/course/my_course/my_course_screen.dart';
-import 'package:do_an/screens/home/home_screen.dart';
+import 'package:do_an/controllers/bottom_nav/bottom_nav_controller.dart';
 import 'package:do_an/screens/navigation_bar/navigation_item.dart';
-import 'package:do_an/screens/profile/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';

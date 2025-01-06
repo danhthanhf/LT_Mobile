@@ -14,6 +14,7 @@ class Course {
   int? _totalLessons = 0;
   int? _price = 0;
   int? _totalDuration = 0;
+  List<String>? categories;
 
   // Default constructor
   Course({
@@ -54,7 +55,9 @@ class Course {
         _createdAt = DateTime.parse(json['createdAt']),
         _totalLessons = json['totalLessons'],
         _price = json['price'],
-        _totalDuration = json['totalDuration'];
+        _totalDuration = json['totalDuration'],
+        categories = json['categories'].map<String>((category) => category.toString()).toList()
+      ;
 
   factory Course.init() => Course(author: User(), sections: []);
 
@@ -70,6 +73,7 @@ class Course {
   int? get totalLessons => _totalLessons;
   int? get price => _price;
   int? get totalDuration => _totalDuration;
+  String get categoriesString => categories!.join(', ');
 
   set id(String? value) => _id = value?.isNotEmpty == true ? value : _id;
   set title(String? value) => _title = value?.isNotEmpty == true ? value : _title;

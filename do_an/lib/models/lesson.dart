@@ -1,6 +1,6 @@
 
 class Lesson {
-  late String? _id, _title, _description;
+  late String? _id, _title, _description, _video;
   late int? _order, _duration;
   late DateTime? _createdAt;
 
@@ -10,11 +10,13 @@ class Lesson {
       _description = json['description'],
       _order = json['order'],
       _duration = json['duration'],
+      _video = json['video'],
       _createdAt = DateTime.parse(json['createdAt']);
 
   String? get id => _id;
   String? get title => _title;
   String? get description => _description;
+  String? get video => _video;
   int? get order => _order;
   int? get duration => _duration;
   DateTime? get createdAt => _createdAt;

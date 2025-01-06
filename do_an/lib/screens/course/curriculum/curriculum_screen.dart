@@ -1,4 +1,4 @@
-import 'package:do_an/controllers/curriculum_controller.dart';
+import 'package:do_an/controllers/curriculum/curriculum_controller.dart';
 import 'package:do_an/screens/course/curriculum/widget/enroll_button.dart';
 import 'package:do_an/screens/course/curriculum/widget/lesson_item.dart';
 import 'package:do_an/screens/course/curriculum/widget/sction_header.dart';
@@ -13,8 +13,10 @@ class CurriculumScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final CurriculumController controller = Get.find<CurriculumController>();
+    final Map<String, dynamic> arg = Get.arguments;
+    final String title = arg['title'];
     final CurriculumController controller = Get.put(CurriculumController());
+    controller.fetchCourseByTitle(title);
 
     return Scaffold(
       backgroundColor: const Color(0xFFF5F9FF),
@@ -79,6 +81,7 @@ class CurriculumScreen extends StatelessWidget {
                                       return LessonItem(
                                         number: (index + 1).toString() ?? '',
                                         title: lesson.title ?? '',
+                                        video: lesson.video ?? '',
                                         duration: duration,
                                         isCompleted: false,
                                       );

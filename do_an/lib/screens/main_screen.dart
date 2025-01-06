@@ -1,5 +1,4 @@
-import 'package:do_an/controllers/bottom_nav_controller.dart';
-import 'package:do_an/screens/course/curriculum/curriculum_screen.dart';
+import 'package:do_an/controllers/bottom_nav/bottom_nav_controller.dart';
 import 'package:do_an/screens/course/my_course/my_course_screen.dart';
 import 'package:do_an/screens/home/home_screen.dart';
 import 'package:do_an/screens/navigation_bar/bottom_navigation.dart';

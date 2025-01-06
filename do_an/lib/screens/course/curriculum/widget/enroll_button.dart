@@ -1,5 +1,5 @@
 import 'package:do_an/constant.dart';
-import 'package:do_an/controllers/curriculum_controller.dart';
+import 'package:do_an/controllers/curriculum/curriculum_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -38,8 +38,8 @@ class EnrollButton extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const SizedBox(width: 30,),
-                    Text(
-                      price != 0 ? 'Enroll Course - \$$price' : 'Enroll Course - Free',
+                    const Text(
+                      'Enroll Course',
                       style: const TextStyle(
                         fontFamily: 'Jost',
                         fontSize: 18,

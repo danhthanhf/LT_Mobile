@@ -7,12 +7,13 @@ import 'package:do_an/models/user_course_progress.dart';
 import 'package:http/http.dart' as http;
 
 class UserCourseService {
-  final token = 'eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3MzYxMzI4NzksInN1YiI6ImFkbWluQGdtYWlsLmNvbSIsImlhdCI6MTczNjA5Njg3OX0.qtkw423kSISJHTtWjSUoXGJ9ytp4wKotV_UFhp07vwI';
+  final userCourseUri = Uri.parse('${AppConstants.baseUrl}/me/courses/enrolled');
 
-  Future<List<UserCourseProgress>> fetchMyCourse() async {
-    final uri = Uri.parse('${AppConstants.baseUrl}/me/courses/enrolled');
+
+  Future<List<UserCourseProgress>> fetchMyCourse(bool isCompleted, String title) async {
+    final uri = Uri.parse('$userCourseUri/filter?isCompleted=$isCompleted&title=$title');
     final headers = {
-      'Authorization' : 'Bearer $token',
+      'Authorization' : 'Bearer ${AppConstants.token}',
     };
 
     try {

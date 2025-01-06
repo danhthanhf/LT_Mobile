@@ -11,7 +11,6 @@ class CurriculumController extends GetxController {
   void onInit() {
     super.onInit();
     // fetchCourseByTitle("Mastering Java - Level 1");
-    fetchCourseByTitle("Become a Certified Web Developer: HTML, CSS and JavaScript");
   }
 
   void updateCourse(Course newCourse) {

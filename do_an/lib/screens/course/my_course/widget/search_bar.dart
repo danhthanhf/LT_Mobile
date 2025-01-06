@@ -1,15 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+
+import '../../../../controllers/my_course/my_course_controller.dart';
 
 class CustomSearchBar extends StatelessWidget {
-  const CustomSearchBar({Key? key}) : super(key: key);
+  final TextEditingController _search = TextEditingController();
+  final controller = Get.put(MyCourseController());
+
+
+
+  CustomSearchBar({super.key});
+
+  void onSearch(String value) {
+    controller.title.value = value;
+  }
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController _search = TextEditingController();
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      // Perform operations after the widget is rendered
-    });
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
@@ -27,9 +35,10 @@ class CustomSearchBar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Expanded(  // Đảm bảo TextField chiếm toàn bộ không gian có sẵn
+          Expanded(
             child: TextField(
               controller: _search,
+              onChanged: onSearch,
               decoration: const InputDecoration(
                 hintText: 'Search for …',
                 hintStyle: TextStyle(
@@ -49,4 +58,5 @@ class CustomSearchBar extends StatelessWidget {
       ),
     );
   }
+
 }

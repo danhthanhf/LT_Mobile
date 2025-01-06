@@ -45,6 +45,7 @@ class SectionHeader extends StatelessWidget {
                ],
              ),
          )),
+          const SizedBox(width: 4,),
           Text(
             duration,
             style: const TextStyle(

@@ -1,48 +1,69 @@
+import 'package:do_an/constant.dart';
+import 'package:do_an/controllers/my_course/my_course_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
 class FilterTabs extends StatelessWidget {
   const FilterTabs({Key? key}) : super(key: key);
 
+
+
   @override
   Widget build(BuildContext context) {
+    final MyCourseController controller = Get.put(MyCourseController());
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Container(
+        SizedBox(
           width: 200,
-          padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 15),
-          decoration: BoxDecoration(
-            color: const Color(0xFF167F71),
-            borderRadius: BorderRadius.circular(24),
-          ),
-          child: const Text(
-            'Completed',
-            style: TextStyle(
-              fontFamily: 'Mulish',
-              fontSize: 15,
-              fontWeight: FontWeight.w800,
-              color: Colors.white,
+          child: Obx(() => ElevatedButton(
+            onPressed: () {
+              controller.changeFilter(true);
+            },
+            style: ElevatedButton.styleFrom(
+                backgroundColor: controller.isCompleted.value ? AppConstants.activeBtnColor : AppConstants.inactiveBtnColor,
+                padding: const EdgeInsets.symmetric(vertical: 22),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(24),
+                )
+            ),
+            child:
+            Text('Completed',
+              style: TextStyle(
+                fontFamily: 'Mulish',
+                fontSize: 15,
+                fontWeight: FontWeight.w900,
+                color: controller.isCompleted.value ? Colors.white : Colors.black,
+              ),
+            ),
+          ),)
+        ),
+        Obx(() =>  SizedBox(
+          width: 200,
+          child: ElevatedButton(
+            onPressed: () {
+              controller.changeFilter(false);
+            },
+            style: ElevatedButton.styleFrom(
+                backgroundColor: controller.isCompleted.value ? AppConstants.inactiveBtnColor : AppConstants.activeBtnColor,
+                padding: const EdgeInsets.symmetric(vertical: 22),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(24),
+                )
+            ),
+            child:
+            Text('Ongoing',
+              style: TextStyle(
+                fontFamily: 'Mulish',
+                fontSize: 15,
+                fontWeight: FontWeight.w900,
+                color: controller.isCompleted.value ? Colors.black : Colors.white,
+              ),
             ),
           ),
-        ),
-        Container(
-          width: 200,
-          alignment: Alignment.center,
-          padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 15),
-          decoration: BoxDecoration(
-            color: const Color(0xFFE8F1FF),
-            borderRadius: BorderRadius.circular(24),
-          ),
-          child: const Text(
-            'Ongoing',
-            style: TextStyle(
-              fontFamily: 'Mulish',
-              fontSize: 15,
-              fontWeight: FontWeight.w800,
-              color: Color(0xFF202244),
-            ),
-          ),
-        ),
+        ),)
       ],
     );
   }
