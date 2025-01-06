@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 class CategoriesSection extends StatefulWidget {
   final Function(String) onCategorySelected;
-
-  const CategoriesSection({Key? key, required this.onCategorySelected})
+  final List<String> categories;
+  const CategoriesSection({Key? key, required this.onCategorySelected,required this.categories})
       : super(key: key);
 
   @override
@@ -11,11 +11,12 @@ class CategoriesSection extends StatefulWidget {
 }
 
 class _CategoriesSectionState extends State<CategoriesSection> {
-  String selectedCategory = '';
+  String selectedCategory = 'All';
 
   @override
   Widget build(BuildContext context) {
     final categories = [
+      'All',
       'Graphic Design',
       'Photography',
       'Music',
@@ -23,7 +24,7 @@ class _CategoriesSectionState extends State<CategoriesSection> {
     ];
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -39,14 +40,28 @@ class _CategoriesSectionState extends State<CategoriesSection> {
               ),
               TextButton(
                 onPressed: () {},
-                child: const Text(
-                  'SEE ALL',
-                  style: TextStyle(color: Colors.blue),
+                child: Row(
+                  children: const [
+                    Text(
+                      'SEE ALL',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                        color: Color(0xFF0961F5),
+                      ),
+                    ),
+                    SizedBox(width: 5),
+                    Icon(
+                      Icons.arrow_forward_ios, // Mũi tên
+                      size: 12,
+                      color: Color(0xFF0961F5),
+                    ),
+                  ],
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 6),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
