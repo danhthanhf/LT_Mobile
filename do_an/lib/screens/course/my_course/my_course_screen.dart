@@ -1,5 +1,4 @@
 import 'package:do_an/controllers/my_course/my_course_controller.dart';
-import 'package:do_an/screens/course/curriculum/widget/status_bar.dart';
 import 'package:do_an/screens/course/my_course/widget/course_card.dart';
 import 'package:do_an/screens/course/my_course/widget/filter_tabs.dart';
 import 'package:do_an/screens/course/my_course/widget/search_bar.dart';
@@ -24,7 +23,7 @@ class MyCoursesScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
                Padding(
-                padding: const EdgeInsets.fromLTRB(33, 40, 14, 0),
+                padding: const EdgeInsets.fromLTRB(20, 40, 20, 0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

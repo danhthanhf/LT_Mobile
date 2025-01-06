@@ -10,6 +10,8 @@ class AppRoutes {
   static const PROFILE = "/profile";
   static const CURRICULUM = "/curriculum";
   static const MAIN = "/main";
+  static const EDIT_PROFILE = "/edit-profile";
+  static const PRIVACY = "/privacy";
 
 
 
@@ -17,13 +19,12 @@ class AppRoutes {
     GetPage(
         name: AppRoutes.CURRICULUM,
         page: () => const CurriculumScreen(),
-        // binding: CurriculumBinding()
     ),
     GetPage(
       name: AppRoutes.MAIN,
       page: () => MainPage(),
-      binding: BottomNavBinding(),
     ),
+
   ];
 
   get getPages => appPages;

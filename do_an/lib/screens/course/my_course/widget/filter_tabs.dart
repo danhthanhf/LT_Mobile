@@ -17,7 +17,7 @@ class FilterTabs extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         SizedBox(
-          width: 200,
+          width: 170,
           child: Obx(() => ElevatedButton(
             onPressed: () {
               controller.changeFilter(true);
@@ -26,7 +26,7 @@ class FilterTabs extends StatelessWidget {
                 backgroundColor: controller.isCompleted.value ? AppConstants.activeBtnColor : AppConstants.inactiveBtnColor,
                 padding: const EdgeInsets.symmetric(vertical: 22),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(24),
+                  borderRadius: BorderRadius.circular(60),
                 )
             ),
             child:
@@ -41,7 +41,7 @@ class FilterTabs extends StatelessWidget {
           ),)
         ),
         Obx(() =>  SizedBox(
-          width: 200,
+          width: 170,
           child: ElevatedButton(
             onPressed: () {
               controller.changeFilter(false);
@@ -50,7 +50,7 @@ class FilterTabs extends StatelessWidget {
                 backgroundColor: controller.isCompleted.value ? AppConstants.inactiveBtnColor : AppConstants.activeBtnColor,
                 padding: const EdgeInsets.symmetric(vertical: 22),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(24),
+                  borderRadius: BorderRadius.circular(60),
                 )
             ),
             child:

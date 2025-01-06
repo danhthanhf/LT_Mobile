@@ -16,7 +16,7 @@ class CourseService {
         ResponseModel responseModel = ResponseModel.fromJson(data);
         return Course.fromJson(responseModel.content);
       } else {
-        throw Exception('Failed to load course');
+        throw Exception('Failed to load course ${response.statusCode}');
       }
     } catch(e) {
       print("Error: ${e}");
