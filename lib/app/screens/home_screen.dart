@@ -6,6 +6,7 @@ import '../widgets/home_widgets/search_bar.dart';
 import '../widgets/home_widgets/status_bar.dart';
 import '../widgets/home_widgets/user_header.dart';
 import '../widgets/home_widgets/courses_section.dart';
+import '../widgets/home_widgets/home_page/search_page.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -68,7 +69,14 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             children: [
               const UserHeader(),
-              const SearchBarScreen(),
+              SearchBarScreen(
+                onTap: () {
+                // Điều hướng đến SearchPage
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SearchPage()),
+                );
+              },),
               const PromoBanner(),
               CategoriesSection(
                 onCategorySelected: (category) {
