@@ -1,6 +1,6 @@
-// import 'package:do_an/entity/Course.dart';
+// import 'package:do_an/entity/course.dart';
 //
-// import 'User.dart';
+// import 'user.dart';
 //
 // class Instructor extends User {
 //   List<Course> _createdCourses = [];
