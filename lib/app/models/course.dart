@@ -69,10 +69,10 @@ class Course {
   factory Course.init() => Course(author: User(), sections: []);
 
   String? get id => _id;
-  String? get title => _title;
+  String get thumbnail => _thumbnail ?? '';
+  String get title => _title ?? 'No title available';
   String? get video => _video;
   double get scoreRating => _scoreRating;
-  String? get thumbnail => _thumbnail;
   User get author => _author;
   List<Section> get sections => _sections;
   String? get description => _description;

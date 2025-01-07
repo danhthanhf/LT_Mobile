@@ -1,162 +1,135 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import '../../../controllers/course_controller.dart';
+import 'CourseDetailPage.dart';
 
-class SearchPage extends StatefulWidget {
-  const SearchPage({Key? key}) : super(key: key);
+class SearchCoursesPage extends StatelessWidget {
+  final CourseController courseController = Get.put(CourseController());
 
-  @override
-  State<SearchPage> createState() => _SearchPageState();
-}
-
-class _SearchPageState extends State<SearchPage> {
-  final List<String> recentSearches = [
-    '3D Design',
-    'Graphic Design',
-    'Programming',
-    'SEO & Marketing',
-    'Web Development',
-    'Office Productivity',
-    'Personal Development',
-    'Finance & Accounting',
-    'HR Management',
-  ];
-
-  void removeRecentSearch(String search) {
-    setState(() {
-      recentSearches.remove(search);
-    });
-  }
+  SearchCoursesPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white, // Đặt nền trắng
+      backgroundColor: const Color(0xFFF5F9FF), // Nền tổng thể
       appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.transparent,
+        title: const Text('Search Courses'),
+        backgroundColor: const Color(0xFFF5F9FF),
         elevation: 0,
-        title: Row(
-          children: [
-            IconButton(
-              onPressed: () => Navigator.pop(context),
-              icon: const Icon(Icons.arrow_back, color: Colors.black),
-            ),
-            const Text(
-              "Search",
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-                color: Colors.black,
-              ),
-            ),
-          ],
-        ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 8), // Thêm khoảng cách trước thanh tìm kiếm
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(15),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
-                    blurRadius: 12,
-                    offset: const Offset(0, 3),
-                  ),
-                ],
-              ),
-              child: Row(
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.only(left: 12),
-                    child: Icon(Icons.search, color: Colors.black),
-                  ),
-                  Expanded(
-                    child: TextFormField(
-                      style: const TextStyle(
-                        fontFamily: 'Mulish',
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.black,
-                      ),
-                      decoration: const InputDecoration(
-                        hintText: 'Search',
-                        hintStyle: TextStyle(
-                          fontFamily: 'Mulish',
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                          color: Color(0xFFB4BDC4),
-                        ),
-                        border: InputBorder.none,
-                        contentPadding: EdgeInsets.symmetric(horizontal: 12),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 16), // Khoảng cách giữa thanh tìm kiếm và nội dung
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
-                  'Recents Search',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                  ),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: TextField(
+              decoration: InputDecoration(
+                hintText: 'Search courses...',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
                 ),
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      recentSearches.clear();
-                    });
-                  },
-                  child: const Text(
-                    'SEE ALL',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.blue,
-                    ),
-                  ),
-                ),
-              ],
+                prefixIcon: const Icon(Icons.search),
+              ),
+              onSubmitted: (query) {
+                // Gửi truy vấn hoặc lấy danh sách đầy đủ nếu để trống
+                courseController.fetchFilteredCourses(title: query.trim());
+              },
             ),
-            const SizedBox(height: 12),
-            Expanded(
-              child: ListView.builder(
-                itemCount: recentSearches.length,
+          ),
+          Expanded(
+            child: Obx(() {
+              if (courseController.isLoading.value) {
+                return const Center(child: CircularProgressIndicator());
+              }
+
+              if (courseController.filteredCourses.isEmpty) {
+                return const Center(child: Text('No courses found'));
+              }
+
+              return ListView.builder(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                itemCount: courseController.filteredCourses.length,
                 itemBuilder: (context, index) {
-                  final search = recentSearches[index];
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          search,
-                          style: const TextStyle(
-                            fontSize: 16,
-                            color: Colors.black,
+                  final course = courseController.filteredCourses[index];
+                  return GestureDetector(
+                    onTap: () {
+                      // Điều hướng đến trang chi tiết khóa học
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CourseDetailPage(course: course),
+                        ),
+                      );
+                    },
+                    child: Card(
+                      color: Colors.white, // Màu nền của khóa học
+                      margin: const EdgeInsets.only(bottom: 16),
+                      elevation: 3,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Row(
+                        children: [
+                          ClipRRect(
+                            borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(8),
+                              bottomLeft: Radius.circular(8),
+                            ),
+                            child: Image.network(
+                              course.thumbnail ?? '',
+                              width: 100,
+                              height: 100,
+                              fit: BoxFit.cover,
+                            ),
                           ),
-                        ),
-                        GestureDetector(
-                          onTap: () => removeRecentSearch(search),
-                          child: const Icon(Icons.close, color: Colors.black),
-                        ),
-                      ],
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  course.title,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                    color: Color(0xFF202244),
+                                  ),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  'Students: ${course.totalRegister}',
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                                const SizedBox(height: 4),
+                                Row(
+                                  children: [
+                                    const Icon(Icons.star, color: Colors.orange, size: 16),
+                                    Text(
+                                      course.scoreRating.toString(),
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 12,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 },
-              ),
-            ),
-          ],
-        ),
+              );
+            }),
+          ),
+        ],
       ),
     );
   }
