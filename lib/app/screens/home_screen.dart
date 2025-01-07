@@ -6,103 +6,67 @@ import '../widgets/home_widgets/search_bar.dart';
 import '../widgets/home_widgets/user_header.dart';
 import '../widgets/home_widgets/courses_section.dart';
 import '../widgets/home_widgets/home_page/search_page.dart';
+import 'package:get/get.dart';
+import '../controllers/home_controller.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
-
-  @override
-  _HomeScreenState createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  String selectedCategory = 'All';
-
-  final courses = [
-    {
-      'title': 'Graphic Design Advanced',
-      'category': 'Graphic Design',
-      'price': '850',
-      'rating': 4.2,
-      'students': 7830,
-      'imageUrl': 'https://vtiacademy.edu.vn/upload/images/hoc-code-1.png',
-      'description': 'Learn the basics of music theory in this beginner-friendly course. Understand the core principles of scales, chords, and music composition.'
-    },
-    {
-      'title': 'Advertisement Designing',
-      'category': 'Graphic Design',
-      'price': '400',
-      'rating': 4.2,
-      'students': 0,
-      'imageUrl': 'https://vtiacademy.edu.vn/upload/images/hoc-code-1.png',
-    },
-    {
-      'title': 'Photography Basics',
-      'category': 'Photography',
-      'price': '500',
-      'rating': 4.8,
-      'students': 1200,
-      'imageUrl': 'https://vtiacademy.edu.vn/upload/images/hoc-code-1.png',
-      'description': 'Learn the basics of music theory in this beginner-friendly course. Understand the core principles of scales, chords, and music composition.'
-    },
-    {
-      'title': 'Music Theory Basics',
-      'category': 'Music',
-      'price': '300',
-      'rating': 4.1,
-      'students': 500,
-      'imageUrl': 'https://vtiacademy.edu.vn/upload/images/hoc-code-1.png',
-    },
-  ];
+class HomeScreen extends StatelessWidget {
+  final HomeController homeController = Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {
-    final categories = [
-      'All',
-      ...{...courses.map((course) => course['category'] as String)}
-    ];
-    final filteredCourses = selectedCategory == 'All'
-        ? courses
-        : courses
-        .where((course) => course['category'] == selectedCategory)
-        .toList();
-
     return Scaffold(
       backgroundColor: const Color(0xFFF5F9FF),
-      body: SingleChildScrollView(
-        child: Container(
-          constraints: const BoxConstraints(maxWidth: 480),
-          child: Column(
-            children: [
-              const UserHeader(),
-              SearchBarScreen(
-                onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const SearchPage()),
-                );
-              },),
-              const PromoBanner(),
-              CategoriesSection(
-                categories: categories,
-                onCategorySelected: (category) {
-                  setState(() {
-                    selectedCategory = category;
-                  });
-                },
-              ),
-              CoursesSection(
+      body: Obx(() {
+        if (homeController.isLoading.value) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        // Xử lý dữ liệu categories và courses từ HomeController
+        final categories = [
+          'All',
+          ...homeController.categories
+        ];
+
+        final filteredCourses = homeController.selectedCategory.value == 'All'
+            ? homeController.courses
+            : homeController.courses.where((course) =>
+        course.categories?.contains(homeController.selectedCategory.value) ?? false).toList();
+
+        return SingleChildScrollView(
+          child: Container(
+            constraints: const BoxConstraints(maxWidth: 480),
+            child: Column(
+              children: [
+                const UserHeader(),
+                SearchBarScreen(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const SearchPage()),
+                    );
+                  },
+                ),
+                const PromoBanner(),
+                CategoriesSection(
+                  categories: categories,
+                  onCategorySelected: (category) {
+                    homeController.selectedCategory.value = category;
+                  },
+                ),
+                CoursesSection(
                   context: context,
                   courses: filteredCourses,
-                  selectedCategory: selectedCategory,
-                categories: categories,
-              ),
-              const MentorsSection(),
-              const SizedBox(height: 37),
-              const BottomIndicator(),
-            ],
+                  selectedCategory: homeController.selectedCategory.value,
+                  categories: categories,
+                ),
+                MentorsSection(mentors: homeController.mentors),
+                const SizedBox(height: 37),
+                const BottomIndicator(),
+              ],
+            ),
           ),
-        ),
-      ),
+        );
+      }),
     );
   }
 }

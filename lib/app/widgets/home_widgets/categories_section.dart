@@ -1,27 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import '../../controllers/home_controller.dart';
 
-class CategoriesSection extends StatefulWidget {
+class CategoriesSection extends StatelessWidget {
   final Function(String) onCategorySelected;
   final List<String> categories;
-  const CategoriesSection({Key? key, required this.onCategorySelected,required this.categories})
+
+  const CategoriesSection({Key? key, required this.onCategorySelected, required this.categories})
       : super(key: key);
 
   @override
-  _CategoriesSectionState createState() => _CategoriesSectionState();
-}
-
-class _CategoriesSectionState extends State<CategoriesSection> {
-  String selectedCategory = 'All';
-
-  @override
   Widget build(BuildContext context) {
-    final categories = [
-      'All',
-      'Graphic Design',
-      'Photography',
-      'Music',
-      'Programming',
-    ];
+    final homeController = Get.find<HomeController>();
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -33,10 +23,7 @@ class _CategoriesSectionState extends State<CategoriesSection> {
             children: [
               const Text(
                 'Categories',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               TextButton(
                 onPressed: () {},
@@ -52,7 +39,7 @@ class _CategoriesSectionState extends State<CategoriesSection> {
                     ),
                     SizedBox(width: 5),
                     Icon(
-                      Icons.arrow_forward_ios, // Mũi tên
+                      Icons.arrow_forward_ios,
                       size: 12,
                       color: Color(0xFF0961F5),
                     ),
@@ -66,32 +53,29 @@ class _CategoriesSectionState extends State<CategoriesSection> {
             scrollDirection: Axis.horizontal,
             child: Row(
               children: categories.map((category) {
-                return Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        selectedCategory = category;
-                      });
-                      widget.onCategorySelected(category);
-                    },
-                    child: Chip(
-                      label: Text(
-                        category,
-                        style: TextStyle(
-                          color: selectedCategory == category
-                              ? Colors.white
-                              : Colors.black,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
+                return Obx(() {
+                  final isSelected = homeController.selectedCategory.value == category;
+                  return Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: GestureDetector(
+                      onTap: () {
+                        homeController.setSelectedCategory(category);
+                        onCategorySelected(category);
+                      },
+                      child: Chip(
+                        label: Text(
+                          category,
+                          style: TextStyle(
+                            color: isSelected ? Colors.white : Colors.black,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
+                        backgroundColor: isSelected ? Colors.teal[800] : const Color(0xFFE0E0E0),
                       ),
-                      backgroundColor: selectedCategory == category
-                          ? Colors.teal[800]
-                          : const Color(0xFFE0E0E0),
                     ),
-                  ),
-                );
+                  );
+                });
               }).toList(),
             ),
           ),

@@ -1,23 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_app/app/widgets/home_widgets/home_page/popular_courses_page.dart';
+import 'package:mobile_app/app/models/course.dart';
 
 Widget CoursesSection({
-  required BuildContext context, // Thêm context vào tham số
-  required List<Map<String, dynamic>> courses,
+  required BuildContext context,
+  required List<Course> courses,
   required String selectedCategory,
   required List<String> categories
 }) {
-  Widget courseCard({
-    required String title,
-    required String category,
-    required String price,
-    required double rating,
-    required int students,
-    required String imageUrl,
-  }) {
+  Widget courseCard(Course course) {
     return Container(
-      width: 250, // Set fixed width for each card to support horizontal scrolling
-      margin: const EdgeInsets.only(right: 20), // Add spacing between cards
+      width: 250,
+      margin: const EdgeInsets.only(right: 20),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: Colors.white,
@@ -41,7 +34,7 @@ Widget CoursesSection({
             child: ClipRRect(
               borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
               child: Image.network(
-                imageUrl,
+                course.thumbnail ?? '',
                 fit: BoxFit.cover,
                 width: double.infinity,
               ),
@@ -59,7 +52,7 @@ Widget CoursesSection({
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          category,
+                        course.categoriesString,
                           style: const TextStyle(
                             color: Color(0xFFFF6B00),
                             fontSize: 12,
@@ -68,13 +61,18 @@ Widget CoursesSection({
                           ),
                         ),
                         const SizedBox(height: 7),
-                        Text(
-                          title,
-                          style: const TextStyle(
-                            color: Color(0xFF202244),
-                            fontSize: 16,
-                            fontFamily: 'Jost',
-                            fontWeight: FontWeight.w600,
+                        FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            course.title ?? 'No title',
+                            style: const TextStyle(
+                              color: Color(0xFF202244),
+                              fontSize: 16,
+                              fontFamily: 'Jost',
+                              fontWeight: FontWeight.w600,
+                            ),
+                            maxLines: 1, // Giới hạn 1 dòng
+                            overflow: TextOverflow.ellipsis, // Hiển thị dấu '...' nếu vượt quá kích thước
                           ),
                         ),
                       ],
@@ -89,15 +87,7 @@ Widget CoursesSection({
                 const SizedBox(height: 10),
                 Row(
                   children: [
-                    Text(
-                      '$price/-',
-                      style: const TextStyle(
-                        color: Color(0xFF0961F5),
-                        fontSize: 15,
-                        fontFamily: 'Mulish',
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
+
                     const Text(
                       ' | ',
                       style: TextStyle(
@@ -115,7 +105,7 @@ Widget CoursesSection({
                         ),
                         const SizedBox(width: 3),
                         Text(
-                          rating.toString(),
+                          course.scoreRating.toString(),
                           style: const TextStyle(
                             color: Color(0xFF202244),
                             fontSize: 11,
@@ -134,7 +124,7 @@ Widget CoursesSection({
                       ),
                     ),
                     Text(
-                      '$students Std',
+                      '${course.totalRegister} Std',
                       style: const TextStyle(
                         color: Color(0xFF202244),
                         fontSize: 11,
@@ -172,15 +162,15 @@ Widget CoursesSection({
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => PopularCoursesPage(
-                          courses: courses,
-                        categories: categories,
-                      ),
-                    ),
-                  );
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder: (context) => PopularCoursesPage(
+                  //         courses: courses,
+                  //       categories: categories,
+                  //     ),
+                  //   ),
+                  // );
                 },
                 child: Row(
                   children: const [
@@ -206,22 +196,15 @@ Widget CoursesSection({
           ),
 
         ),
-        const SizedBox(height: 10), // Add spacing between title and courses
+        const SizedBox(height: 10),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
             children: courses.map((course) {
-              final isFirst = courses.indexOf(course) == 0; // Kiểm tra phần tử đầu
+              final isFirst = courses.indexOf(course) == 0;
               return Padding(
-                padding: EdgeInsets.only(left: isFirst ? 10 : 0), // Thêm khoảng cách trái cho phần tử đầu
-                child: courseCard(
-                  title: course['title'],
-                  category: course['category'],
-                  price: course['price'],
-                  rating: course['rating'],
-                  students: course['students'],
-                  imageUrl: course['imageUrl'],
-                ),
+                padding: EdgeInsets.only(left: isFirst ? 10 : 0),
+                child: courseCard(course),
               );
             }).toList(),
           ),
