@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_app/app/models/course.dart';
 
+import 'home_page/popular_courses_page.dart';
+
 Widget CoursesSection({
   required BuildContext context,
   required List<Course> courses,
@@ -87,15 +89,6 @@ Widget CoursesSection({
                 const SizedBox(height: 10),
                 Row(
                   children: [
-
-                    const Text(
-                      ' | ',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
                     Row(
                       children: [
                         const Icon(
@@ -162,15 +155,13 @@ Widget CoursesSection({
               ),
               GestureDetector(
                 onTap: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) => PopularCoursesPage(
-                  //         courses: courses,
-                  //       categories: categories,
-                  //     ),
-                  //   ),
-                  // );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => PopularCoursesPage(
+                      ),
+                    ),
+                  );
                 },
                 child: Row(
                   children: const [
@@ -192,7 +183,6 @@ Widget CoursesSection({
                 ),
               ),
             ],
-
           ),
 
         ),

@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:mobile_app/app/models/course.dart';
 
 class CourseDetailPage extends StatelessWidget {
-  final Map<String, dynamic> course;
+  final Course course;
 
   const CourseDetailPage({Key? key, required this.course}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFF5F9FF),
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
@@ -23,7 +26,6 @@ class CourseDetailPage extends StatelessWidget {
           ),
         ),
       ),
-      backgroundColor: const Color(0xFFF5F9FF),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -41,20 +43,20 @@ class CourseDetailPage extends StatelessWidget {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(15),
                     child: Image.network(
-                      course['imageUrl'],
+                      course.thumbnail ?? '',
                       fit: BoxFit.cover,
                       width: double.infinity,
                     ),
                   ),
                 ),
                 Positioned(
-                  bottom: 16, // Đặt khoảng cách phù hợp để nút không bị cắt
+                  bottom: 16,
                   right: 16,
                   child: Container(
                     height: 56,
                     width: 56,
                     decoration: BoxDecoration(
-                      color: const Color(0xFF00796B), // Màu xanh đậm
+                      color: const Color(0xFF00796B),
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
@@ -68,7 +70,7 @@ class CourseDetailPage extends StatelessWidget {
                       icon: const Icon(
                         Icons.play_circle_fill,
                         color: Colors.white,
-                        size: 28, // Điều chỉnh kích thước biểu tượng nếu cần
+                        size: 28,
                       ),
                       onPressed: () {
                         // Hành động khi bấm nút
@@ -78,70 +80,115 @@ class CourseDetailPage extends StatelessWidget {
                 ),
               ],
             ),
-
             const SizedBox(height: 16),
 
-            // Tiêu đề và thông tin chi tiết
-            Text(
-              course['title'],
-              style: const TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-                color: Color(0xFF202244),
-              ),
-            ),
-            const SizedBox(height: 8),
-            Row(
-              children: [
-                Text(
-                  course['category'],
-                  style: const TextStyle(
-                    color: Color(0xFFFF6B00),
-                    fontWeight: FontWeight.bold,
+            // Box chính chứa thông tin Title, Description và TabBar
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(15),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
                   ),
-                ),
-                const SizedBox(width: 16),
-                const Icon(Icons.star, color: Colors.orange, size: 16),
-                Text(
-                  course['rating'].toString(),
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(width: 16),
-                Text(
-                  '${course['students']} students',
-                  style: const TextStyle(color: Colors.grey),
-                ),
-              ],
-            ),
-
-            const SizedBox(height: 16),
-
-            // TabBar: About | Curriculum
-            DefaultTabController(
-              length: 2,
+                ],
+              ),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  TabBar(
-                    indicatorColor: const Color(0xFF0961F5),
-                    labelColor: const Color(0xFF202244),
-                    unselectedLabelColor: Colors.grey,
-                    tabs: const [
-                      Tab(text: 'About'),
-                      Tab(text: 'Curriculum'),
+                  // Danh mục và đánh giá
+                  Row(
+                    children: [
+                      Text(
+                        course.categories?.join(', ') ?? 'Category',
+                        style: const TextStyle(
+                          color: Color(0xFFFF6B00),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                        ),
+                      ),
+                      const Spacer(),
+                      const Icon(Icons.star, color: Colors.orange, size: 16),
+                      Text(
+                        course.scoreRating.toString(),
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+
+                  // Tiêu đề khóa học
+                  Text(
+                    course.title ?? 'Untitled Course',
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF202244),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+
+                  // Thông tin bổ sung (Số lớp và thời gian học)
+                  Row(
+                    children: [
+                      const Icon(Icons.people, size: 16, color: Colors.grey),
+                      const SizedBox(width: 4),
+                      Text(
+                        '${course.totalRegister} students',
+                        style: const TextStyle(color: Colors.grey, fontSize: 12),
+                      ),
+                      const SizedBox(width: 16),
                     ],
                   ),
                   const SizedBox(height: 16),
-                  SizedBox(
-                    height: 150,
-                    child: TabBarView(
+
+                  // TabBar: About | Curriculum
+                  DefaultTabController(
+                    length: 2,
+                    child: Column(
                       children: [
-                        Text(
-                          course['description'] ?? 'No description available.',
-                          style: const TextStyle(color: Colors.black),
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: TabBar(
+                            indicatorColor: const Color(0xFF0961F5),
+                            labelColor: const Color(0xFF202244),
+                            unselectedLabelColor: Colors.grey,
+                            tabs: const [
+                              Tab(text: 'About'),
+                              Tab(text: 'Curriculum'),
+                            ],
+                          ),
                         ),
-                        const Text(
-                          'Curriculum details will be shown here.',
-                          style: TextStyle(color: Colors.grey),
+                        const SizedBox(height: 16),
+                        SizedBox(
+                          height: 150,
+                          child: TabBarView(
+                            children: [
+                              Markdown(
+                                data: course.description ?? 'No description available.',
+                                styleSheet: MarkdownStyleSheet(
+                                  p: const TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.black,
+                                    height: 1.5,
+                                  ),
+                                ),
+                              ),
+                              const Text(
+                                'Curriculum details will be shown here.',
+                                style: TextStyle(color: Colors.grey),
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
@@ -163,24 +210,24 @@ class CourseDetailPage extends StatelessWidget {
             const SizedBox(height: 8),
             Row(
               children: [
-                const CircleAvatar(
+
+                 CircleAvatar(
                   radius: 20,
-                  backgroundImage: NetworkImage(
-                      'https://via.placeholder.com/150'), // Thay bằng ảnh giảng viên
+                  backgroundImage: NetworkImage(course.author.avatarUrl ?? ''),
                 ),
                 const SizedBox(width: 10),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      'Robert Jr',
+                    Text(
+                     course.author.firstName,
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     Text(
-                      course['category'],
+                      course.categories?.join(', ') ?? 'No categories',
                       style: const TextStyle(color: Colors.grey),
                     ),
                   ],
@@ -217,7 +264,6 @@ class CourseDetailPage extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 16),
-
             // Reviews
             const Text(
               'Reviews',
@@ -258,11 +304,11 @@ class CourseDetailPage extends StatelessWidget {
                   ),
                   padding: const EdgeInsets.symmetric(vertical: 16),
                 ),
-                child: Text(
-                  'Enroll Course ',
-                  style: const TextStyle(
+                child: const Text(
+                  'Enroll Course',
+                  style: TextStyle(
                     fontSize: 16,
-                    color: Colors.white, // Màu chữ trắng
+                    color: Colors.white,
                   ),
                 ),
               ),
