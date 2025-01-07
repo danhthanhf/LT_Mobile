@@ -40,12 +40,12 @@ class ProfileCard extends StatelessWidget {
                     color: const Color(0xFFD8D8D8),
                   ),
                   child: ClipOval(
-                    child: Image.asset(
-                      'assets/icons/avatar.png', // Replace with your avatar image path
-                      fit: BoxFit.cover,
-                      width: 118,
-                      height: 118,
-                    ),
+                    // child: Image.asset(
+                    //   'assets/icons/avatar.png', // Replace with your avatar image path
+                    //   fit: BoxFit.cover,
+                    //   width: 118,
+                    //   height: 118,
+                    // ),
                   ),
                 ),
               ),
