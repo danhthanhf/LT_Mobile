@@ -7,11 +7,12 @@ import 'package:do_an/models/user_course_progress.dart';
 import 'package:http/http.dart' as http;
 
 class UserCourseService {
+
   final userCourseUri = Uri.parse('${AppConstants.baseUrl}/me/courses/enrolled');
 
 
   Future<List<UserCourseProgress>> fetchMyCourse(bool isCompleted, String title) async {
-    final uri = Uri.parse('$userCourseUri/filter?isCompleted=$isCompleted&title=$title');
+    final uri = Uri.parse('$userCourseUri/filter?isCompleted=$isCompleted&title=asda');
     final headers = {
       'Authorization' : 'Bearer ${AppConstants.token}',
     };
@@ -25,7 +26,7 @@ class UserCourseService {
         return userCourseProgressList;
       }
       else {
-        throw Exception('Failed to load course');
+        throw Exception('Failed to load course ${res.statusCode}');
       }
     } catch(e) {
       print("Error: $e");
