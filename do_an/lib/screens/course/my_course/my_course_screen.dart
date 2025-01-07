@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 import '../../../constant.dart';
 
 class MyCoursesScreen extends StatelessWidget {
-  const MyCoursesScreen({Key? key}) : super(key: key);
+  const MyCoursesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

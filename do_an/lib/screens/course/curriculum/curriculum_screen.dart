@@ -105,7 +105,6 @@ class CurriculumScreen extends StatelessWidget {
                                 ),
                               ),
                               ),) : !isEnrolled ? const EnrollButton() : Container(),
-
                           ],
                         )
                       )

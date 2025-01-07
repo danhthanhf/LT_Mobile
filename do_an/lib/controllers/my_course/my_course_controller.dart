@@ -49,6 +49,7 @@ class MyCourseController extends GetxController {
   Future<void> fetchMyCourse() async {
     isLoading.value = true;
     final res = await userCourseService.fetchMyCourse(isCompleted.value, title.value);
+    print(res);
     isLoading.value = false;
     courseList.value = res;
   }

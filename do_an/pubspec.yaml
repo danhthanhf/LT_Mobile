@@ -17,6 +17,7 @@ dependencies:
   get: ^4.6.6
   flutter_svg: ^2.0.16
   video_player: ^2.9.2
+  audioplayers: ^6.1.0
 
 dev_dependencies:
   flutter_test:

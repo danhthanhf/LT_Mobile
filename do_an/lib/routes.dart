@@ -1,6 +1,7 @@
 import 'package:do_an/bindings/bottom_nav_binding.dart';
 import 'package:do_an/screens/course/curriculum/curriculum_screen.dart';
 import 'package:do_an/screens/main_screen.dart';
+import 'package:do_an/screens/profile/edit_profile/edit_profile.dart';
 import 'package:get/get.dart';
 
 class AppRoutes {
@@ -23,6 +24,10 @@ class AppRoutes {
     GetPage(
       name: AppRoutes.MAIN,
       page: () => MainPage(),
+    ),
+    GetPage(
+      name: AppRoutes.EDIT_PROFILE,
+      page: () => const EditProfileScreen(),
     ),
 
   ];
