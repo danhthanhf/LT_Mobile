@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_app/app/models/mentor.dart';
+
+import '../../models/course.dart';
+import 'home_page/Author_detail_page.dart';
 class MentorsSection extends StatelessWidget {
   final List<Mentor> mentors;
 
@@ -55,7 +58,8 @@ class MentorsSection extends StatelessWidget {
                 return Padding(
                   padding: const EdgeInsets.only(right: 8.0),
                   child: MentorAvatar(
-                    mentor: mentor, // Truyền từng mentor vào MentorAvatar
+                    mentor: mentor,
+                    // Truyền từng mentor vào MentorAvatar
                   ),
                 );
               }).toList(),
@@ -68,27 +72,35 @@ class MentorsSection extends StatelessWidget {
 }
 
 class MentorAvatar extends StatelessWidget {
-  final Mentor mentor; // Nhận một Mentor duy nhất
+  final Mentor mentor;
 
   const MentorAvatar({Key? key, required this.mentor}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        CircleAvatar(
-          radius: 32,
-          backgroundImage: NetworkImage(
-            mentor.avatarUrl, // Sử dụng avatarUrl từ Mentor
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => AuthorDetailScreen(mentor: mentor,),
           ),
-          backgroundColor: Colors.grey[300],
-        ),
-        const SizedBox(height: 4),
-        Text(
-          mentor.firstName, // Sử dụng firstName từ Mentor
-          style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
-        ),
-      ],
+        );
+      },
+      child: Column(
+        children: [
+          CircleAvatar(
+            radius: 32,
+            backgroundImage: NetworkImage(mentor.avatarUrl),
+            backgroundColor: Colors.grey[300],
+          ),
+          const SizedBox(height: 4),
+          Text(
+            mentor.firstName,
+            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+          ),
+        ],
+      ),
     );
   }
 }
